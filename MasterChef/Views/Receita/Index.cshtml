@@ -1,0 +1,25 @@
+﻿<link rel="stylesheet" href="~/css/receita.css" />
+
+@{
+    ViewData["Title"] = "Receitas";
+    var search = Context.Request.Query["search"];
+}
+
+<div class="banner">
+    <img src="/img/fullbanner-receitas.png" />
+</div>
+
+<div>
+    <form method="get">
+        <label>Busca por receita</label>
+        <input type="text" name="search" id="search" autocomplete="off" autofocus />
+        <button type="submit">Procurar</button>
+    </form>
+
+</div>
+
+@section scripts {
+    <script>
+        $('#search').val("@search");
+    </script>
+}
