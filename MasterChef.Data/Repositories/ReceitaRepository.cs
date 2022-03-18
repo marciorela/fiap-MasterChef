@@ -1,6 +1,7 @@
 ﻿using MasterChef.Contracts.Data;
 using MasterChef.Database;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,14 @@ namespace MasterChef.Data.Repositories
         public async Task<List<Receita>> GetAll(string? search)
         {
             search ??= string.Empty;
+            search = "%" + search + "%";
 
             return await _ctx.Receitas
-                .Where(x => 
-                    x.Titulo.ToLowerInvariant().Contains(search.ToLowerInvariant())
-                    || x.Descricao.ToLowerInvariant().Contains(search.ToLowerInvariant())
-                    || x.Ingredientes.ToLowerInvariant().Contains(search.ToLowerInvariant())
+                .Where(x => EF.Functions.Like(x.Titulo, search)
+                    || EF.Functions.Like(x.Descricao, search)
+                    || EF.Functions.Like(x.Ingredientes, search)
                 )
+                //.Select(r => new ReceitaListVM() { Id = r.Id, Titulo = r.Titulo })
                 .ToListAsync();
         }
 

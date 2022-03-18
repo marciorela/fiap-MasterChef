@@ -17,9 +17,10 @@ namespace MasterChef.Api.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetAll(string? search)
+        public async Task<IActionResult> GetAll(string? search)
         {
-            return Ok(_receitaService.GetAll(search));
+            var list = await _receitaService.GetAll(search);
+            return Ok(list);
         }
 
         [HttpGet("{id}")]
@@ -57,6 +58,8 @@ namespace MasterChef.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            await _receitaService.Delete(id);
+
             return Ok();
         }
     }

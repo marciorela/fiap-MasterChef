@@ -27,8 +27,8 @@ namespace MasterChef.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlite(_config.GetConnectionString("sqlite"));
-            //optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"));
-            optionsBuilder.UseMySql(_config.GetConnectionString("MySql"), ServerVersion.Create(new Version(), ServerType.MariaDb));
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"));
+            //optionsBuilder.UseMySql(_config.GetConnectionString("MySql"), ServerVersion.Create(new Version(), ServerType.MariaDb));
         }
 
     }
