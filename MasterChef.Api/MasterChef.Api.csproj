@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Database\MasterChef.Database.csproj" />
+    <ProjectReference Include="..\MasterChef.Data\MasterChef.Data.csproj" />
+    <ProjectReference Include="..\MasterChef.Services\MasterChef.Services.csproj" />
   </ItemGroup>
 
 </Project>

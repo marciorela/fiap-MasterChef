@@ -12,14 +12,16 @@ namespace MasterChef.Controllers
         {
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
 
-            var request = new RestRequest("test", Method.Get);
-            var response = await _client.GetAsync<string>(request);
+            return RedirectToAction(nameof(ReceitaController.Index), typeof(ReceitaController).ControllerName());
 
-            ViewData["TestApi"] = response;
-            return View();
+            //var request = new RestRequest("test", Method.Get);
+            //var response = await _client.GetAsync<string>(request);
+
+            //ViewData["TestApi"] = response;
+            //return View();
         }
 
         public IActionResult Privacy()
@@ -31,6 +33,16 @@ namespace MasterChef.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+    }
+
+    public static class ControllerExtensions
+    {
+        public static string ControllerName(this Type controller)
+        {
+            var name = controller.Name;
+            return name.EndsWith("Controller") ? name[0..^10] : name;
         }
     }
 }

@@ -27,6 +27,5 @@ namespace MasterChef.Controllers
             //Client.DefaultRequestHeaders.Accept.Clear();
             //Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
     }
 }
