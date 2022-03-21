@@ -1,4 +1,6 @@
-﻿<link rel="stylesheet" href="~/css/receita.css" />
+﻿@model IEnumerable<Receita>
+
+<link rel="stylesheet" href="~/css/receita.css" />
 
 @{
     ViewData["Title"] = "Receitas";
@@ -15,6 +17,13 @@
         <input type="text" name="search" id="search" autocomplete="off" autofocus />
         <button type="submit">Procurar</button>
     </form>
+
+    @foreach (var item in Model)
+    {
+        <article>
+            <label>@item.Titulo</label>
+        </article>
+    }
 
 </div>
 

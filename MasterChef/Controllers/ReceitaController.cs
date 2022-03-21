@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MasterChef.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,17 @@ namespace MasterChef.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string search)
+        public async Task<IActionResult> Index(string search)
         {
-            return View();
-        }
 
+            var request = new RestRequest("Receitas", Method.Get)
+                .AddQueryParameter("search", search);
+
+            var response = await _client.GetAsync<IEnumerable<Receita>>(request);
+            
+            //ViewData["TestApi"] = response;
+
+            return View(response);
+        }
     }
 }
