@@ -44,14 +44,11 @@ namespace MasterChef.Services.Receitas
             return await _receitaRepository.GetById(id);
         }
 
-        public async Task<Receita> Update(Guid id, Receita receita)
+        public async Task<Receita> Update(Receita receita)
         {
-            var receitaAntiga = await _receitaRepository.GetById(id);
+            var receitaAntiga = await _receitaRepository.GetById(receita.Id);
             if (receitaAntiga != null)
             {
-                receita.Id = receitaAntiga.Id;
-                //receita.DataCadastro = receitaAntiga.DataCadastro;
-
                 await _receitaRepository.Update(receita);
             }
 

@@ -24,9 +24,9 @@ namespace MasterChef.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var receita = _receitaService.GetById(id);
+            var receita = await _receitaService.GetById(id);
             if (receita == null)
             {
                 return NotFound();
@@ -39,7 +39,7 @@ namespace MasterChef.Api.Controllers
         [HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        // TODO: 
+        // TODO: DOCUMENTACAO
         public async Task<IActionResult> New(ReceitaRequest receita)
         {
             var receitaNova = await _receitaService.Add(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo));
@@ -50,7 +50,10 @@ namespace MasterChef.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] ReceitaRequest receita)
         {
-            await _receitaService.Update(id, new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo));
+
+            await _receitaService.Update(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo) {
+                Id = id
+            });
 
             return Ok();
         }

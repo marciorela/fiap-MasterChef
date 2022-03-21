@@ -10,7 +10,7 @@ namespace MasterChef.Contracts.Services
 
         Task<Receita> Add(Receita receita);
 
-        Task<Receita> Update(Guid id, Receita receita);
+        Task<Receita> Update(Receita receita);
 
         Task Delete(Guid id);
     }

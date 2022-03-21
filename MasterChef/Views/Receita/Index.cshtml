@@ -16,19 +16,24 @@
         <label>Busca por receita</label>
         <input type="text" name="search" id="search" autocomplete="off" autofocus />
         <button type="submit">Procurar</button>
+        <button type="submit" asp-action="Create" asp-controller="Receita">Novo</button>
     </form>
 
-    @foreach (var item in Model)
+    @if (Model != null)
     {
-        <article>
-            <label>@item.Titulo</label>
-        </article>
+        foreach (var item in Model)
+        {
+            <article>
+                <a asp-action="Edit" asp-route-id="@item.Id">@item.Titulo</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">@item.Descricao</a>
+            </article>
+        }
     }
 
 </div>
 
 @section scripts {
-    <script>
-        $('#search').val("@search");
-    </script>
+<script>
+    $('#search').val("@search");
+</script>
 }
