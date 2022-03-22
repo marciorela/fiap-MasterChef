@@ -1,5 +1,5 @@
-﻿using MasterChef.Api.DTO.Receita;
-using MasterChef.Contracts.Services;
+﻿using MasterChef.Contracts.Services;
+using MasterChef.Domain.Dto;
 using MasterChef.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +40,7 @@ namespace MasterChef.Api.Controllers
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         // TODO: DOCUMENTACAO
-        public async Task<IActionResult> New(ReceitaRequest receita)
+        public async Task<IActionResult> New(ReceitaCreateRequest receita)
         {
             var receitaNova = await _receitaService.Add(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo));
 
@@ -48,7 +48,7 @@ namespace MasterChef.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] ReceitaRequest receita)
+        public async Task<IActionResult> Put(Guid id, [FromBody] ReceitaCreateRequest receita)
         {
 
             await _receitaService.Update(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo) {

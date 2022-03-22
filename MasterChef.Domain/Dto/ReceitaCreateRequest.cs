@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MasterChef.Api.DTO.Receita
+namespace MasterChef.Domain.Dto
 {
-    public class ReceitaRequest
+    public class ReceitaCreateRequest
     {
         [Required(ErrorMessage = "Título deve ser informado")]
         [StringLength(100)]
@@ -16,8 +16,8 @@ namespace MasterChef.Api.DTO.Receita
         [Required(ErrorMessage = "Descricao deve ser informada")]
         [StringLength(100)]
         public string Descricao { get; set; } = "";
-        
-        [Required(ErrorMessage = "Ingrentes deve ser informado")]
+
+        [Required(ErrorMessage = "Ingrentes devem ser informados")]
         public string Ingredientes { get; set; } = "";
 
         [Required(ErrorMessage = "Modo de Preparo deve ser informado")]

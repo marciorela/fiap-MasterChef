@@ -42,7 +42,7 @@
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
-                <a asp-action="Delete" class="btn btn-danger">Excluir</a>
+                <button type="button" onclick="deletePressed('@Model.Id')" class="btn btn-danger">Excluir</button>
             </div>
         </form>
     </div>
@@ -51,3 +51,38 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function deletePressed(id){
+
+        swal({
+            title: "Excluir",
+            text: "Tem certeza que deseja excluir esta receita?",
+            //icon: "warning",
+            buttons: ["Não", "Sim"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/Receita/Delete/" + id,
+                    data: { },
+                    success: function(msg) {
+                        swal("Exclusão efetuada com sucesso.")
+                            .then((value) =>  {
+                                $(location).attr('href', '/Receita');
+                            }
+                        );
+                    },
+                    error: function(msg) {
+                        swal("Não foi possível excluir a receita.");
+                    }
+                });
+            } else {
+            }
+        });
+
+        }
+</script>
