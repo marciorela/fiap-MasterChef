@@ -1,4 +1,5 @@
-﻿using MasterChef.Contracts.Services;
+﻿using System.Reflection;
+using MasterChef.Contracts.Services;
 using MasterChef.Domain.Dto;
 using MasterChef.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,15 @@ namespace MasterChef.Api.Controllers
     public class ReceitaController : ControllerBase
     {
         private readonly IReceitaService _receitaService;
+        private readonly IFotoService _fotoService;
 
-        public ReceitaController(IReceitaService receitaService)
+        public ReceitaController(
+            IReceitaService receitaService,
+            IFotoService fotoService
+            )
         {
             _receitaService = receitaService;
+            _fotoService = fotoService;
         }
 
         [HttpGet()]
@@ -48,14 +54,33 @@ namespace MasterChef.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] ReceitaCreateRequest receita)
+        public async Task<IActionResult> Put(Guid id, ReceitaCreateRequest receita)
         {
-
-            await _receitaService.Update(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo) {
-                Id = id
+            await _receitaService.Update(new Receita(
+                receita.Titulo, 
+                receita.Descricao, 
+                receita.Ingredientes, 
+                receita.ModoDePreparo) {
+                Id = id,
+                Foto = receita.Foto
             });
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("UploadFoto/{id}")]
+        public async Task<IActionResult> Upload([FromRoute] Guid id, IFormFile fotoStr)
+        {
+            try
+            {
+                await _fotoService.Save(fotoStr, id);
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("{id}")]

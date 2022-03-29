@@ -1,6 +1,7 @@
 ﻿using MasterChef.Contracts.Data;
 using MasterChef.Contracts.Services;
 using MasterChef.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,15 @@ namespace MasterChef.Services.Receitas
     public class ReceitaService : IReceitaService
     {
         private readonly IReceitaRepository _receitaRepository;
+        private readonly IFotoService _fotoService;
 
-        public ReceitaService(IReceitaRepository receitaRepository)
+        public ReceitaService(
+            IReceitaRepository receitaRepository,
+            IFotoService fotoService
+            )
         {
             _receitaRepository = receitaRepository;
+            _fotoService = fotoService;
         }
 
         public async Task<Receita> Add(Receita receita)
@@ -31,6 +37,7 @@ namespace MasterChef.Services.Receitas
             if (receita != null)
             {
                 await _receitaRepository.Delete(receita);
+                _fotoService.Delete(receita);
             }
         }
 
@@ -50,6 +57,10 @@ namespace MasterChef.Services.Receitas
             if (receitaAntiga != null)
             {
                 await _receitaRepository.Update(receita);
+                if (string.IsNullOrWhiteSpace(receita.Foto))
+                {
+                    _fotoService.Delete(receita);
+                }
             }
 
             return receita;

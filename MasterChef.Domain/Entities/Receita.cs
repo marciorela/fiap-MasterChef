@@ -13,7 +13,7 @@ namespace MasterChef.Domain.Entities
 
         public Receita() { }
 
-        public Receita(string titulo, string descricao, string ingredientes, string modoDePreparo)
+        public Receita(string? titulo, string? descricao, string? ingredientes, string? modoDePreparo)
         {
             Titulo = titulo;
             Descricao = descricao;
@@ -27,7 +27,7 @@ namespace MasterChef.Domain.Entities
         [StringLength(100)]
         [Required(ErrorMessage = "Título deve ser informado.")]
         [Display(Name = "Título")]
-        public string Titulo { get; init; } = string.Empty;
+        public string? Titulo { get; init; }
 
         [Display(Name = "Data de Cadastro")]
         public DateTime DataCadastro { get; init; }
@@ -35,15 +35,20 @@ namespace MasterChef.Domain.Entities
         [Required(ErrorMessage = "Descrição deve ser informada.")]
         [StringLength(100)]
         [Display(Name = "Descrição")]
-        public string Descricao { get; init; } = string.Empty;
+        public string? Descricao { get; init; }
 
         [Required(ErrorMessage = "Ingredientes devem ser informados.")]
         [Display(Name = "Ingredientes")]
-        public string Ingredientes { get; init; } = string.Empty;
+        public string? Ingredientes { get; init; }
 
         [Required(ErrorMessage = "Modo de Preparo deve ser informado.")]
         [Display(Name = "Modo de Preparo")]
-        public string ModoDePreparo { get; init; } = string.Empty;
+        public string? ModoDePreparo { get; init; }
+
+        [Display(Name = "Imagem")]
+        [StringLength(255)]
+        public string? Foto { get; set; }
+
         public IReadOnlyList<Tag> Tags => _tags;
 
         public void AddTag(string titulo, string descricao)

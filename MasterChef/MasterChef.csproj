@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
+    <ProjectReference Include="..\MasterChef.Extensions\MasterChef.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

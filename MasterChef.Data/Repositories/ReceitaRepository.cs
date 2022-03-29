@@ -22,9 +22,9 @@ namespace MasterChef.Data.Repositories
             search = "%" + search + "%";
 
             return await _ctx.Receitas
-                .Where(x => EF.Functions.Like(x.Titulo, search)
-                    || EF.Functions.Like(x.Descricao, search)
-                    || EF.Functions.Like(x.Ingredientes, search)
+                .Where(x => EF.Functions.Like(x.Titulo ?? "", search)
+                    || EF.Functions.Like(x.Descricao ?? "", search)
+                    || EF.Functions.Like(x.Ingredientes ?? "", search)
                 )
                 .AsNoTracking()
                 //.Select(r => new ReceitaListVM() { Id = r.Id, Titulo = r.Titulo })
