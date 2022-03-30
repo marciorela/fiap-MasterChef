@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MasterChef.Domain.Types;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MasterChef.Extensions
 {
@@ -11,6 +14,15 @@ namespace MasterChef.Extensions
             await formFile.CopyToAsync(ms);
 
             return ms.ToArray();
+        }
+
+        public static async Task<string> ToBase64(this IFormFile? formFile)
+        {
+            if (formFile == null)
+            {
+                return "";
+            }
+            return Convert.ToBase64String(await formFile.GetBytes());
         }
 
     }

@@ -2,6 +2,7 @@
 using MasterChef.Contracts.Services;
 using MasterChef.Domain.Dto;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
@@ -61,26 +62,10 @@ namespace MasterChef.Api.Controllers
                 receita.Descricao, 
                 receita.Ingredientes, 
                 receita.ModoDePreparo) {
-                Id = id,
-                Foto = receita.Foto
-            });
+                Id = id
+            }, new FotoInfo(receita.FotoName, receita.FotoContent));
 
             return Ok();
-        }
-
-        [HttpPost]
-        [Route("UploadFoto/{id}")]
-        public async Task<IActionResult> Upload([FromRoute] Guid id, IFormFile fotoStr)
-        {
-            try
-            {
-                await _fotoService.Save(fotoStr, id);
-                return Ok();
-            }
-            catch
-            {
-                return NotFound();
-            }
         }
 
         [HttpDelete("{id}")]

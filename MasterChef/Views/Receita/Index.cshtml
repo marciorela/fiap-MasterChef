@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Receita>
+﻿@model IEnumerable<ReceitaStdResponse>
 
 <link rel="stylesheet" href="~/css/receita.css" />
 
@@ -24,9 +24,27 @@
         foreach (var item in Model)
         {
             <article>
-                <a asp-action="Edit" asp-route-id="@item.Id">@item.Titulo</a>
-                <a asp-action="Edit" asp-route-id="@item.Id">@item.Descricao</a>
+                <div class="title">
+                    <div class="foto">
+                        @if (!string.IsNullOrEmpty(@item.FotoContent))
+                        {
+                            <img src="data:image/png;base64, @item.FotoContent" alt="Red dot" />
+                        }
+                    </div>
+
+                    <h4>
+                        <a asp-action="Edit" asp-route-id="@item.Id">@item.Titulo</a>
+                    </h4>
+                </div>
+
+                <div>
+                    <p>
+                        <a asp-action="Edit" asp-route-id="@item.Id">@item.Descricao</a>
+                    </p>
+                </div>
             </article>
+
+            <hr />
         }
     }
 

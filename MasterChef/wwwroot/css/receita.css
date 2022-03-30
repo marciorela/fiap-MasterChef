@@ -2,3 +2,24 @@
     max-width: 100%;
 }
 
+.foto {
+    max-width: 132px;
+    float: left;
+}
+
+.foto img {
+    max-width: 100%;
+}
+
+article {
+    min-height: 132px;
+}
+
+article a {
+    text-decoration: none;
+    color: black;
+}
+
+.title h4 {
+    margin-left: 150px;
+}

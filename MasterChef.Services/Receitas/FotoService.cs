@@ -1,6 +1,7 @@
 ﻿using MasterChef.Contracts.Data;
 using MasterChef.Contracts.Services;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -75,15 +76,38 @@ namespace MasterChef.Services.Receitas
             }
         }
 
-        public async Task<bool> Save(IFormFile foto, Guid id)
+        public bool SaveOrDelete(Receita receita, FotoInfo foto)
         {
-            var receita = await _receitaRepository.GetById(id);
-            if (receita != null)
+            if (string.IsNullOrWhiteSpace(foto.ContentBase64))
             {
-                return Save(foto, receita);
-            }
+                Delete(receita);
 
-            throw new Exception($"Receita não encontrada: {id}");
+                return false;
+            }
+            else
+            {
+                var content = Convert.FromBase64String(foto.ContentBase64);
+                File.WriteAllBytes(FileName(receita), content);
+
+                return true;
+            }
+        }
+
+        public FotoInfo Load(Receita receita)
+        {
+            var filename = FileName(receita);
+
+            if (File.Exists(filename))
+            {
+                return new FotoInfo(
+                    FileName(receita),
+                    Convert.ToBase64String(File.ReadAllBytes(filename))
+                );
+            }
+            else
+            {
+                return new FotoInfo();
+            }
         }
     }
 }

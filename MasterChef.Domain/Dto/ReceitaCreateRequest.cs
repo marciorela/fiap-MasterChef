@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace MasterChef.Domain.Dto
         [Required(ErrorMessage = "Modo de Preparo deve ser informado")]
         public string? ModoDePreparo { get; set; }
 
-        public string? Foto { get; set; }
+        public string? FotoName { get; set; }
+
+        public string? FotoContent { get; set; }
     }
 }

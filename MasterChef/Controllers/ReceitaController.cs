@@ -30,11 +30,12 @@ namespace MasterChef.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string search)
         {
+            //HttpPostedFileBase
 
             var request = new RestRequest("Receitas", Method.Get)
                 .AddQueryParameter("search", search);
 
-            var response = await _client.GetAsync<IEnumerable<Receita>>(request);
+            var response = await _client.GetAsync<IEnumerable<ReceitaStdResponse>>(request);
 
             //ViewData["TestApi"] = response;
 
@@ -50,13 +51,6 @@ namespace MasterChef.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ReceitaVM model, IFormFile foto)
         {
-            // if (!ValidaImagem(foto))
-            // {
-            //     return View(model);
-            // }
-
-            model.Foto = foto?.FileName;
-
             var request = new RestRequest("Receitas", Method.Post)
                 .AddJsonBody(new ReceitaCreateRequest()
                 {
@@ -64,7 +58,8 @@ namespace MasterChef.Controllers
                     Descricao = model.Descricao,
                     Ingredientes = model.Ingredientes,
                     ModoDePreparo = model.ModoDePreparo,
-                    Foto = model.Foto
+                    FotoName = foto?.FileName,
+                    FotoContent = await foto.ToBase64()
                 });
             var response = await _client.PostAsync(request);
 
@@ -84,34 +79,6 @@ namespace MasterChef.Controllers
             }
 
             return RedirectToAction(nameof(ReceitaController.Index));
-        }
-
-        private string SalvarFoto(IFormFile foto)
-        {
-            var path = Path.Combine(_env.WebRootPath, "fotos");
-            var nome = Path.Combine(path, Guid.NewGuid().ToString() + "." + foto.FileName);
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            using var stream = System.IO.File.Create(nome);
-
-            foto.CopyToAsync(stream);
-
-            return nome;
-        }
-
-        private static bool ValidaImagem(IFormFile foto)
-        {
-            return foto.ContentType switch
-            {
-                "image/jpeg" => true,
-                "image/bmp" => true,
-                "image/gif" => true,
-                "image/png" => true,
-                _ => false,
-            };
         }
 
         [HttpGet]
@@ -141,26 +108,31 @@ namespace MasterChef.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, Receita model, IFormFile foto)
         {
-            model.Foto = foto.FileName;
-
             var request = new RestRequest("Receitas/{id}", Method.Put)
                 .AddUrlSegment("id", id)
-                .AddJsonBody(model)
-                ;
+                .AddJsonBody(new ReceitaCreateRequest() {
+                    Descricao = model.Descricao,
+                    Ingredientes = model.Ingredientes,
+                    ModoDePreparo = model.ModoDePreparo,
+                    Titulo = model.Titulo,
+                    FotoName = foto?.FileName,
+                    FotoContent = await foto.ToBase64()
+                });
             var response = await _client.PutAsync(request);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                request = new RestRequest("Receitas/UploadFoto/{id}", Method.Post)
-                    .AddUrlSegment("id", id)
-                    .AddHeader("Content-Type", "multipart/form-data")
-                    //.AddFile("fotoStr", System.IO.File.ReadAllBytes(fileName), fileName);
-                    .AddFile("fotoStr", await foto.GetBytes(), foto.FileName);
-                request.AlwaysMultipartFormData = true;
-                response = await _client.PostAsync(request);
-            }
-
             return RedirectToAction(nameof(ReceitaController.Index));
+        }
+
+        private static bool ValidaImagem(IFormFile foto)
+        {
+            return foto.ContentType switch
+            {
+                "image/jpeg" => true,
+                "image/bmp" => true,
+                "image/gif" => true,
+                "image/png" => true,
+                _ => false,
+            };
         }
 
         [HttpDelete]

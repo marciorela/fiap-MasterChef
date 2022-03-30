@@ -1,4 +1,5 @@
 ﻿using MasterChef.Domain.Entities;
+using MasterChef.Domain.Types;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ namespace MasterChef.Contracts.Services
     public interface IFotoService
     {
 
-        Task<bool> Save(IFormFile foto, Guid id);
-
-        bool Save(IFormFile foto, Receita receita);
+        bool SaveOrDelete(Receita receita, FotoInfo foto);
 
         bool Exists(Receita receita);
         
         bool Delete(Receita receita);
+
+        FotoInfo Load(Receita receita);
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MasterChef.Contracts.Data;
 using MasterChef.Contracts.Services;
+using MasterChef.Domain.Dto;
 using MasterChef.Domain.Entities;
+using MasterChef.Domain.Types;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -41,9 +43,18 @@ namespace MasterChef.Services.Receitas
             }
         }
 
-        public async Task<IEnumerable<Receita>> GetAll(string? search)
+        public async Task<IEnumerable<ReceitaStdResponse>> GetAll(string? search)
         {
-            return await _receitaRepository.GetAll(search);
+            var result = await _receitaRepository.GetAll(search);
+            var listStd = result.Select(x => new ReceitaStdResponse()
+            {
+                Id = x.Id,
+                Descricao = x.Descricao,
+                Titulo = x.Titulo,
+                FotoContent = _fotoService.Load(x).ContentBase64
+            });
+
+            return listStd;
         }
 
         public async Task<Receita?> GetById(Guid id)
@@ -51,16 +62,15 @@ namespace MasterChef.Services.Receitas
             return await _receitaRepository.GetById(id);
         }
 
-        public async Task<Receita> Update(Receita receita)
+        public async Task<Receita> Update(Receita receita, FotoInfo foto)
         {
             var receitaAntiga = await _receitaRepository.GetById(receita.Id);
             if (receitaAntiga != null)
             {
+                receita.Foto = foto.FileName;
+
                 await _receitaRepository.Update(receita);
-                if (string.IsNullOrWhiteSpace(receita.Foto))
-                {
-                    _fotoService.Delete(receita);
-                }
+                _fotoService.SaveOrDelete(receita, foto);
             }
 
             return receita;
