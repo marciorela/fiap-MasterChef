@@ -1,13 +1,14 @@
-﻿using System.Reflection;
-using MasterChef.Contracts.Services;
+﻿using MasterChef.Contracts.Services;
 using MasterChef.Domain.Dto;
 using MasterChef.Domain.Entities;
 using MasterChef.Domain.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterChef.Api.Controllers
 {
     [ApiController]
+   // [Authorize]
     [Route("api/Receitas")]
     public class ReceitaController : ControllerBase
     {
