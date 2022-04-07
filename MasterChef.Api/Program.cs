@@ -3,18 +3,39 @@ using MasterChef.Contracts.Services;
 using MasterChef.Data.Repositories;
 using MasterChef.Database;
 using MasterChef.Services.Receitas;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-    //.AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+//.AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddDbContext<MainDbContext>();
 builder.Services.AddScoped<IReceitaRepository, ReceitaRepository>();
 builder.Services.AddScoped<IReceitaService, ReceitaService>();
 builder.Services.AddScoped<IFotoService, FotoService>();
+
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultAuthenticateScheme = "Jwt";
+    o.DefaultChallengeScheme = "Jwt";
+}).AddJwtBearer("Jwt", o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateAudience = false,
+        ValidAudience = "clients-api",
+        ValidIssuer = "api",
+        ValidateIssuer = false,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Token:SecretKey"))),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromMinutes(5)
+    };
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
