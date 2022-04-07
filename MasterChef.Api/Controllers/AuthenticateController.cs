@@ -17,27 +17,27 @@ namespace MasterChef.Api.Controllers
             _config = config;
         }
 
-        private bool Atutenticado(Auth authParam)
+        private bool Atutenticado(AuthRequest authRequest)
         {
-            if ((authParam.ClientId != null) && (authParam.Secret != null))
-            {
-                return
-                    ((authParam.ClientId == this._config["Auth:ClientId"]) &&
-                     (authParam.Secret == this._config["Auth:Secret"]));
-            }
-
-            return false;
+            return
+                ((authRequest.ClientId == this._config["Auth:ClientId"]) && 
+                 (authRequest.Secret == this._config["Auth:Secret"]));
         }
 
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Post([FromBody] Auth authParam)
+        public ActionResult Post([FromBody] AuthRequest authRequest)
         {
             try
             {
-                if (!Atutenticado(authParam))
+                if ((authRequest.ClientId == null) || (authRequest.Secret == null))
+                {
+                    return BadRequest("Dados de autenticação não informado!");
+                }
+
+                if (!Atutenticado(authRequest))
                 {
                     return Unauthorized("Dados não autenticados!");
                 }
@@ -46,9 +46,10 @@ namespace MasterChef.Api.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var secretKeyBytes = Encoding.ASCII.GetBytes(this._config["Token:SecretKey"]);
                 var Expires = DateTime.UtcNow.AddMinutes(tempoExpiracao);
+
                 var tokenDescriptor = new SecurityTokenDescriptor()
                 {
-                    Subject = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Sid, authParam.Id.ToString()), }),
+                    Subject = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Sid, authRequest.ClientId), }),
                     Expires = Expires,
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256Signature)
                 };

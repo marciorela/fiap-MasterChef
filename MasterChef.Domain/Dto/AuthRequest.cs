@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MasterChef.Domain.Entities
+namespace MasterChef.Domain.Dto
 {
-    public class Auth : EntityBase
+    public class AuthRequest
     {
         /// <summary>ClaimId</summary>
         [Required(ErrorMessage = "Esse campo é obrigatório")]
@@ -13,5 +13,6 @@ namespace MasterChef.Domain.Entities
         [Required(ErrorMessage = "Esse campo é obrigatório")]
         [MaxLength(100, ErrorMessage = "Tamanho máximo de {1} caracteres")]
         public string? Secret { get; set; }
+
     }
 }
