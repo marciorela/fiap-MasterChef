@@ -19,9 +19,11 @@ namespace MasterChef.Api.Controllers
 
         private bool Atutenticado(Auth authParam)
         {
-            if (authParam.ClaimId != null)
+            if ((authParam.ClientId != null) && (authParam.Secret != null))
             {
-                return (authParam.ClaimId == this._config["Token:ClaimIdWeb"]);
+                return
+                    ((authParam.ClientId == this._config["Auth:ClientId"]) &&
+                     (authParam.Secret == this._config["Auth:Secret"]));
             }
 
             return false;
