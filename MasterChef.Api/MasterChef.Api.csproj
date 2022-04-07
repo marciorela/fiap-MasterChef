@@ -1,25 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>5aec87a6-8b1e-4a2b-97c9-7e8c0011b1f1</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>5aec87a6-8b1e-4a2b-97c9-7e8c0011b1f1</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MasterChef.Database\MasterChef.Database.csproj" />
-    <ProjectReference Include="..\MasterChef.Data\MasterChef.Data.csproj" />
-    <ProjectReference Include="..\MasterChef.Services\MasterChef.Services.csproj" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\MasterChef.Database\MasterChef.Database.csproj" />
+		<ProjectReference Include="..\MasterChef.Data\MasterChef.Data.csproj" />
+		<ProjectReference Include="..\MasterChef.Services\MasterChef.Services.csproj" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="appsettings*.json" CopyToPublishDirectory="Never" />
+	</ItemGroup>
 
 </Project>
