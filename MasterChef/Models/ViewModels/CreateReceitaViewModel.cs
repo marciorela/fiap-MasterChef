@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MasterChef.Models.ViewModels
 {
-    public class ReceitaVM
+    public class CreateReceitaViewModel
     {
         [Required(ErrorMessage = "Título deve ser informado.")]
         [StringLength(100, ErrorMessage = "Tamanho do campo não deve ultrapassar %1 caracteres.")]

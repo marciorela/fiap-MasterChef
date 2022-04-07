@@ -11,20 +11,24 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using MasterChef.Extensions;
+using AutoMapper;
 
 namespace MasterChef.Controllers
 {
     public class ReceitaController : ControllerBase
     {
         private readonly IWebHostEnvironment _env;
+        public readonly IMapper _mapper;
 
         public ReceitaController(
             ILogger<HomeController> logger,
             IConfiguration config,
-            IWebHostEnvironment env
+            IWebHostEnvironment env,
+            IMapper mapper
             ) : base(logger, config)
         {
             _env = env;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -45,22 +49,29 @@ namespace MasterChef.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new ReceitaVM());
+            return View(new CreateReceitaViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ReceitaVM model, IFormFile foto)
+        public async Task<IActionResult> Create(CreateReceitaViewModel viewModel, IFormFile foto)
         {
-            var request = new RestRequest("Receitas", Method.Post)
-                .AddJsonBody(new ReceitaCreateRequest()
-                {
-                    Titulo = model.Titulo,
-                    Descricao = model.Descricao,
-                    Ingredientes = model.Ingredientes,
-                    ModoDePreparo = model.ModoDePreparo,
-                    FotoName = foto?.FileName,
-                    FotoContent = await foto.ToBase64()
-                });
+        //    var request = new RestRequest("Receitas", Method.Post)
+        //        .AddJsonBody(new ReceitaCreateRequest()
+        //        {
+        //            Titulo = model.Titulo,
+        //            Descricao = model.Descricao,
+        //            Ingredientes = model.Ingredientes,
+        //            ModoDePreparo = model.ModoDePreparo,
+        //            FotoName = foto?.FileName,
+        //            FotoContent = await foto.ToBase64()
+        //        });
+            
+            var _mappedReceita = _mapper.Map<ReceitaCreateRequest>(viewModel);
+            _mappedReceita.FotoName = foto?.FileName;
+            _mappedReceita.FotoName = await foto.ToBase64();
+
+            var request = new RestRequest("Receitas", Method.Post).AddJsonBody(_mappedReceita);
+
             var response = await _client.PostAsync(request);
 
             if (response.StatusCode == HttpStatusCode.Created && foto != null && response != null && response.Content != null)
