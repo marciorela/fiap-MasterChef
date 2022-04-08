@@ -1,8 +1,13 @@
+using MasterChef.Contracts.Services;
+using MasterChef.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 

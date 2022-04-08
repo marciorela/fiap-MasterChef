@@ -9,13 +9,16 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
     <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MasterChef.Contracts\MasterChef.Contracts.csproj" />
     <ProjectReference Include="..\MasterChef.Domain\MasterChef.Domain.csproj" />
     <ProjectReference Include="..\MasterChef.Extensions\MasterChef.Extensions.csproj" />
+    <ProjectReference Include="..\MasterChef.Services\MasterChef.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

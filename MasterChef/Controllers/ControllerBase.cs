@@ -11,8 +11,8 @@ namespace MasterChef.Controllers
 {
     public class ControllerBase : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IConfiguration _config;
+        protected readonly ILogger<HomeController> _logger;
+        protected readonly IConfiguration _config;
         protected readonly RestClient _client;
 
         public ControllerBase(ILogger<HomeController> logger, IConfiguration config)

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MasterChef.Api.Controllers
 {
     [ApiController]
-   // [Authorize]
+    [Authorize]
     [Route("api/Receitas")]
     public class ReceitaController : ControllerBase
     {
