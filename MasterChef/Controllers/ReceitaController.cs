@@ -34,13 +34,13 @@ namespace MasterChef.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string search)
         {
-            //HttpPostedFileBase
-            var request = new RestRequest("Receitas", Method.Get).AddQueryParameter("search", search);
+            _logger.LogInformation("Busca: {search}", search);
+
+            var request = new RestRequest("Receitas", Method.Get)
+                .AddQueryParameter("search", search);
             request = await AddToken(request);
             
             var response = await _client.GetAsync<IEnumerable<ReceitaStdResponse>>(request);
-
-            //ViewData["TestApi"] = response;
 
             return View(response);
         }

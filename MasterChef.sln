@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Api", "MasterChe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterChef.Extensions", "MasterChef.Extensions\MasterChef.Extensions.csproj", "{489FA99F-7B70-4428-8AF8-B974755BC24C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterChef.Log", "MasterChef.Log\MasterChef.Log.csproj", "{77BAC254-BAAB-4E6D-8307-65C4F3FA4E34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{489FA99F-7B70-4428-8AF8-B974755BC24C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{489FA99F-7B70-4428-8AF8-B974755BC24C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{489FA99F-7B70-4428-8AF8-B974755BC24C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BAC254-BAAB-4E6D-8307-65C4F3FA4E34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BAC254-BAAB-4E6D-8307-65C4F3FA4E34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BAC254-BAAB-4E6D-8307-65C4F3FA4E34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BAC254-BAAB-4E6D-8307-65C4F3FA4E34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

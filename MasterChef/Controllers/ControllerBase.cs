@@ -21,11 +21,6 @@ namespace MasterChef.Controllers
             _config = config;
 
             _client = new RestClient(_config.GetValue<string>("ApiAddress"));
-
-
-            //Client.BaseAddress = new Uri(_config.GetValue<string>("ApiAddress"));
-            //Client.DefaultRequestHeaders.Accept.Clear();
-            //Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
     }
 }
