@@ -14,6 +14,7 @@ namespace MasterChef.Log
               .Enrich.WithMemoryUsage()
               .WriteTo.Async(w =>
               {
+                  w.Console(Serilog.Events.LogEventLevel.Verbose);
                   w.File(
                       Path.Combine(AppDomain.CurrentDomain.BaseDirectory.ToString(), "logs", "log_.txt"),
                       rollingInterval: RollingInterval.Day,
