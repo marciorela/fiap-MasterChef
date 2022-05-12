@@ -67,7 +67,7 @@ namespace MasterChef.Controllers
             
             var _mappedReceita = _mapper.Map<ReceitaCreateRequest>(viewModel);
             _mappedReceita.FotoName = foto?.FileName;
-            _mappedReceita.FotoName = await foto.ToBase64();
+            _mappedReceita.FotoContent = await foto.ToBase64();
 
             var request = new RestRequest("Receitas", Method.Post).AddJsonBody(_mappedReceita);
             request = await AddToken(request);
