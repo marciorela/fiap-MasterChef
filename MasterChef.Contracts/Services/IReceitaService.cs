@@ -11,6 +11,7 @@ namespace MasterChef.Contracts.Services
         Task<Receita?> GetById(Guid id);
 
         Task<Receita> Add(Receita receita);
+        Task<Receita> Add(Receita receita, FotoInfo foto);
 
         Task<Receita> Update(Receita receita, FotoInfo foto);
 
