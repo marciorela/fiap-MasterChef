@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MasterChef.Domain.Entities
 {
-    public class Tag : EntityBase
+    public class Categoria : EntityBase
     {
-        public Tag(string titulo, string descricao)
+        public Categoria(string titulo, string descricao)
         {
             Id = Guid.NewGuid();
             Titulo = titulo;

@@ -11,8 +11,6 @@ namespace MasterChef.Domain.Entities
 {
     public class Receita : EntityBase
     {
-        private readonly List<Tag> _tags = new();
-
         public Receita() { }
 
         public Receita(string? titulo, string? descricao, string? ingredientes, string? modoDePreparo)
@@ -51,12 +49,14 @@ namespace MasterChef.Domain.Entities
         [StringLength(255)]
         public string? Foto { get; set; }
 
-        public IReadOnlyList<Tag> Tags => _tags;
+        [Display(Name = "Tags")]
+        [StringLength(255)]
+        public string? Tags { get; set; }
 
-        public void AddTag(string titulo, string descricao)
-        {
-            _tags.Add(new Tag(titulo, descricao));
-        }
+        public int CategoriaId { get; set; }
+
+        public Categoria? Categoria { get; set; }
+
     }
 
     public class ReceitaEntity : EntityBase

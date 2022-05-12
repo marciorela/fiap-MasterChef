@@ -24,24 +24,20 @@
         {
             <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
+            <div class="col p-4 d-flex flex-column position-static">
+                @if (item != null)
+                {
                       <h3 class="mb-0">@item.Titulo</h3>
                       <p class="card-text mb-auto">
-                          @if(item.Descricao.Length > 30)
-                          {
-                              @item.Descricao.Substring(0,30);
-                          }
-                          else
-                          {
-                              @item.Descricao
-                          }
-                          </p>
-                          <div>
-                          <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" style="margin-top:10px;margin-right:10px">Editar</a>
-                          </div>
+                                    @item.Descricao?.Substring(0,30)
+                      </p>
+                    <div>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" style="margin-top:10px;margin-right:10px">Editar</a>
+                    </div>
+                }
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                    @if (!string.IsNullOrEmpty(@item.FotoContent))
+                    @if (!string.IsNullOrEmpty(@item?.FotoContent))
                         {
                             <img src="data:image/png;base64, @item.FotoContent" alt="Red dot" width="250" height="250"/>
                         }

@@ -15,7 +15,7 @@ namespace MasterChef.Database
         private readonly IConfiguration _config;
 
         public DbSet<Receita> Receitas { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public MainDbContext(IConfiguration config)
