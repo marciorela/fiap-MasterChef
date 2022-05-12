@@ -33,6 +33,15 @@ namespace MasterChef.Services.Receitas
             return receita;
         }
 
+        public async Task<Receita> Add(Receita receita, FotoInfo foto)
+        {
+            await _receitaRepository.Add(receita);
+            receita.Foto = foto.FileName;
+            _fotoService.SaveOrDelete(receita, foto);
+
+            return receita;
+        }
+
         public async Task Delete(Guid id)
         {
             var receita = await _receitaRepository.GetById(id);

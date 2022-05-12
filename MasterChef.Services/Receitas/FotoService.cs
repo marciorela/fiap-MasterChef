@@ -80,7 +80,7 @@ namespace MasterChef.Services.Receitas
         {
             if (string.IsNullOrWhiteSpace(foto.ContentBase64))
             {
-                Delete(receita);
+                //Delete(receita);
 
                 return false;
             }
