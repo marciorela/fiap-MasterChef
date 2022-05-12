@@ -1,5 +1,9 @@
-﻿.banner img {
-    max-width: 100%;
+﻿.banner {
+    background-image: url(../img/fullbanner-receitas.png);
+    background-size:cover;
+    height: 400px;
+    width:100%;
+    padding:0px;
 }
 
 .foto {
@@ -22,4 +26,17 @@ article a {
 
 .title h4 {
     margin-left: 150px;
+}
+
+
+body {
+    margin-bottom: 60px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0px;
+}
+
+.nopadding{
+padding:0px;
 }

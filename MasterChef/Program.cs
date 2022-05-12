@@ -10,7 +10,6 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-    builder.Services.AddMemoryCache();
 
     builder.Services.AddScoped<ITokenService, TokenService>();
 

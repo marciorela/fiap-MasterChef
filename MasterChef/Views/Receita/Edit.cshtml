@@ -4,25 +4,28 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Alterar Receita</h1>
+<div class="container-fluid" style="padding: 0px">
+
+<div class="banner"></div>
+
+<div class="row" style="padding-left:15px; padding-right: 15px; padding-top:15px;">
+    <h3>Alterar Receita</h3>
+</div>
+
+<div class="row mb-2" style="padding:15px">
 
 <hr />
+
+<form asp-action="Edit" enctype="multipart/form-data">
+
 <div class="row">
-    <div class="col-md-12">
-        <form asp-action="Edit" enctype="multipart/form-data">
+    <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <input type="hidden" asp-for="Id" class="form-control" />
-
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataCadastro" class="control-label"></label>
-                <input asp-for="DataCadastro" class="form-control" readonly/>
-                <span asp-validation-for="DataCadastro" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label"></label>
@@ -31,14 +34,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Foto" class="control-label"></label>
-                <input type="file" asp-for="Foto" class="form-control" />
-                <span asp-validation-for="Foto" class="text-danger"></span>
+                <input type="file" asp-for="Foto" class="form-control" onchange="ReadURL(this)"/>
+                <span asp-validation-for="Foto" class="text-danger" ></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Foto" class="control-label"></label>
-                <input asp-for="Foto" class="form-control" />
-                <span asp-validation-for="Foto" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group" style="text-align:center;">
+                <img id="blah" src="data:image/png;base64, @Model.Foto" style="max-height:185px; text-align:center;"/>
             </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
             <div class="form-group">
                 <label asp-for="Ingredientes" class="control-label"></label>
                 <textarea asp-for="Ingredientes" class="form-control" ></textarea>
@@ -49,13 +56,18 @@
                 <textarea asp-for="ModoDePreparo" class="form-control" ></textarea>
                 <span asp-validation-for="ModoDePreparo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top:10px">
                 <input type="submit" value="Salvar" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-outline-danger">Cancelar</a>
                 <button type="button" onclick="deletePressed('@Model?.Id')" class="btn btn-danger">Excluir</button>
             </div>
-        </form>
     </div>
+    </div>
+    </form>
+        
+
+
+
 </div>
 
 @section Scripts {
@@ -95,4 +107,43 @@
         });
 
         }
-</script>
+
+        $("#blah").hide();
+
+        function ReadURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            var extPermitidas = ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'];
+            var extArquivo = input.value.split('.').pop();
+            reader.onload = function (e) {
+                if (typeof extPermitidas.find(function (ext) { return extArquivo == ext; }) == 'undefined') {
+                    $("#blah").hide();
+                    alert("A imagem deve estar em png ou jpg!");
+
+                  
+                    //Reference the FileUpload and get its Id and Name.
+                    var fileUpload = $("#Foto");
+                    var id = fileUpload.attr("id");
+                    var name = fileUpload.attr("name");
+                    //Create a new FileUpload element.
+                    var newFileUpload = $("<input type = 'file' class='form form-control'/>");
+                    //Append it next to the original FileUpload.
+                    fileUpload.after(newFileUpload);
+                    //Remove the original FileUpload.
+                    fileUpload.remove();
+                    //Set the Id and Name to the new FileUpload.
+                    newFileUpload.attr("id", id);
+                    newFileUpload.attr("name", name);
+                    return false;
+                
+
+                } else {
+                    $("#blah").show();
+                    $("#blah").attr('src', e.target.result);
+                    
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }</script>
