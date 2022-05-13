@@ -144,8 +144,15 @@ namespace MasterChef.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(Guid id, Receita model, IFormFile foto)
+		public async Task<IActionResult> Edit(Guid id, ReceitaViewModel model, IFormFile foto)
 		{
+
+			if (foto != null)
+			{
+				model.FotoName = foto.Name;
+				model.FotoContent = await foto.ToBase64();
+			}
+
 			var request = new RestRequest("Receitas/{id}", Method.Put)
 				.AddUrlSegment("id", id)
 				.AddJsonBody(new ReceitaCreateRequest()
@@ -154,8 +161,8 @@ namespace MasterChef.Controllers
 					Ingredientes = model.Ingredientes,
 					ModoDePreparo = model.ModoDePreparo,
 					Titulo = model.Titulo,
-					FotoName = foto?.FileName,
-					FotoContent = await foto.ToBase64(),
+					FotoName = model.FotoName,
+					FotoContent = model.FotoContent,
 					CategoriaId = model.CategoriaId,
 					Tags = model.Tags
 				});
