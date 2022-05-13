@@ -31,5 +31,13 @@ namespace MasterChef.Database
             //optionsBuilder.UseMySql(_config.GetConnectionString("MySql"), ServerVersion.Create(new Version(), ServerType.MariaDb));
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Categoria>().HasData(
+                new Categoria("Doces", "Bolos, tortas e tudo o que você achar de gostoso com açucar!"),
+                new Categoria("Salgados", "Fritos, assados, cozidos e tudo o que você achar gostoso com farinha!"),
+                new Categoria("Saudáveis", "Sem glúten, sem açucar, sem lactose e sem graça!")
+                );
+        }
     }
 }

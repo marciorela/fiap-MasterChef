@@ -4,6 +4,7 @@ using MasterChef.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterChef.Database.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220512232818_TagsToCategorias")]
+    partial class TagsToCategorias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,26 +43,6 @@ namespace MasterChef.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categorias");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("9513b6a3-51af-4aa8-a43b-fe8bd999021a"),
-                            Descricao = "Bolos, tortas e tudo o que você achar de gostoso com açucar!",
-                            Titulo = "Doces"
-                        },
-                        new
-                        {
-                            Id = new Guid("03b9f797-456a-4f8d-86e6-ed4b592f0700"),
-                            Descricao = "Fritos, assados, cozidos e tudo o que você achar gostoso com farinha!",
-                            Titulo = "Salgados"
-                        },
-                        new
-                        {
-                            Id = new Guid("8c2efb34-27e6-4982-bfb0-c83b19288307"),
-                            Descricao = "Sem glúten, sem açucar, sem lactose e sem graça!",
-                            Titulo = "Saudáveis"
-                        });
                 });
 
             modelBuilder.Entity("MasterChef.Domain.Entities.Receita", b =>

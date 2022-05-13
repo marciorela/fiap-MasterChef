@@ -50,7 +50,10 @@ namespace MasterChef.Api.Controllers
         // TODO: DOCUMENTACAO
         public async Task<IActionResult> New(ReceitaCreateRequest receita)
         {
-            var receitaNova = await _receitaService.Add(new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo), new FotoInfo(receita.FotoName, receita.FotoContent));
+            var receitaNova = await _receitaService.Add(
+                new Receita(receita.Titulo, receita.Descricao, receita.Ingredientes, receita.ModoDePreparo, receita.Tags, receita.CategoriaId), 
+                new FotoInfo(receita.FotoName, receita.FotoContent)
+            );
 
             return Created("", receitaNova);
         }
@@ -62,7 +65,9 @@ namespace MasterChef.Api.Controllers
                 receita.Titulo, 
                 receita.Descricao, 
                 receita.Ingredientes, 
-                receita.ModoDePreparo) {
+                receita.ModoDePreparo,
+                receita.Tags,
+                receita.CategoriaId) {
                 Id = id
             }, new FotoInfo(receita.FotoName, receita.FotoContent));
 

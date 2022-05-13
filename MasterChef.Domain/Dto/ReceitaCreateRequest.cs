@@ -26,5 +26,9 @@ namespace MasterChef.Domain.Dto
         public string? FotoName { get; set; }
 
         public string? FotoContent { get; set; }
+
+        public Guid CategoriaId { get; set; }
+
+        public string? Tags { get; set; }
     }
 }

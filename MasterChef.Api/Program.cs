@@ -20,6 +20,7 @@ try
 
     builder.Services.AddDbContext<MainDbContext>();
     builder.Services.AddScoped<IReceitaRepository, ReceitaRepository>();
+    builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
     builder.Services.AddScoped<IReceitaService, ReceitaService>();
     builder.Services.AddScoped<IFotoService, FotoService>();
 

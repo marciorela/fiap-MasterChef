@@ -13,12 +13,14 @@ namespace MasterChef.Domain.Entities
     {
         public Receita() { }
 
-        public Receita(string? titulo, string? descricao, string? ingredientes, string? modoDePreparo)
+        public Receita(string? titulo, string? descricao, string? ingredientes, string? modoDePreparo, string? tags, Guid categoriaId)
         {
             Titulo = titulo;
             Descricao = descricao;
             Ingredientes = ingredientes;
             ModoDePreparo = modoDePreparo;
+            Tags = tags;
+            CategoriaId = categoriaId;
 
             Id = Guid.NewGuid();
             DataCadastro = DateTime.Now;
@@ -53,7 +55,7 @@ namespace MasterChef.Domain.Entities
         [StringLength(255)]
         public string? Tags { get; set; }
 
-        public int CategoriaId { get; set; }
+        public Guid CategoriaId { get; set; }
 
         public Categoria? Categoria { get; set; }
 
