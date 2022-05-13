@@ -2,8 +2,10 @@
 
 namespace MasterChef.Models.ViewModels
 {
-	public class CreateReceitaViewModel
+	public class ReceitaViewModel
 	{
+		public Guid? Id { get; set; }
+
 		[Required(ErrorMessage = "Título deve ser informado.")]
 		[StringLength(100, ErrorMessage = "Tamanho do campo não deve ultrapassar %1 caracteres.")]
 		[Display(Name = "Título:")]
@@ -23,6 +25,14 @@ namespace MasterChef.Models.ViewModels
 		public string? ModoDePreparo { get; set; }
 
 		[Display(Name = "Foto:")]
-		public string? Foto { get; set; }
+		public string? FotoName { get; set; }
+
+		public string? FotoContent { get; set; }
+
+		[Display(Name = "Categoria:")]
+		public Guid CategoriaId { get; set; }
+
+		[Display(Name = "Tags:")]
+		public string? Tags { get; set; }
 	}
 }
