@@ -1,4 +1,5 @@
-﻿using MasterChef.Data.Repositories;
+﻿using MasterChef.Contracts.Data;
+using MasterChef.Data.Repositories;
 using MasterChef.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,18 @@ namespace MasterChef.Api.Controllers
 
     public class CategoriaController : ControllerBase
     {
+        private readonly ICategoriaRepository _categoriaRepository;
+
+        public CategoriaController(ICategoriaRepository categoriaRepository)
+        {
+            _categoriaRepository = categoriaRepository;
+        }
+
 
         [HttpGet]
-        public async Task<List<Categoria>> GetAll([FromServices] CategoriaRepository categoriaRepository)
+        public async Task<List<Categoria>> GetAll()
         {
-            return await categoriaRepository.GetAll();
+            return await _categoriaRepository.GetAll();
         }
 
     }
