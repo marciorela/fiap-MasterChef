@@ -23,6 +23,7 @@ try
     builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
     builder.Services.AddScoped<IReceitaService, ReceitaService>();
     builder.Services.AddScoped<IFotoService, FotoService>();
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     builder.Services.AddAuthentication(o =>
     {

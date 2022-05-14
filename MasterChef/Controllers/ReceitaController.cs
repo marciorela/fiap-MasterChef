@@ -53,7 +53,8 @@ namespace MasterChef.Controllers
 
 			var response = await _client.GetAsync<IEnumerable<Categoria>>(request);
 
-			ViewBag.Categorias = response.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
+			if (response is not null)			
+				ViewBag.Categorias = response.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
 
 			return View(new ReceitaViewModel());
 		}
@@ -96,7 +97,8 @@ namespace MasterChef.Controllers
 
 			var responseCategorias = await _client.GetAsync<IEnumerable<Categoria>>(requestCategorias);
 
-			ViewBag.Categorias = responseCategorias.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
+			if (responseCategorias is not null)
+				ViewBag.Categorias = responseCategorias.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
 
 			var request = new RestRequest("Receitas/{id}", Method.Get).AddUrlSegment("id", id);
 			request = await AddToken(request);
