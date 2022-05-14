@@ -11,6 +11,7 @@ namespace MasterChef.Automapper.ViewModelToDomain
 
 
 			CreateMap<ReceitaViewModel, ReceitaCreateRequest>().ReverseMap();
+			CreateMap<ReceitaViewModel, ReceitaResponse>().ReverseMap();
 			//CreateMap<CreateReceitaViewModel, Receita>().ReverseMap();
 
 		}

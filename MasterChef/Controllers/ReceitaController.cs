@@ -61,24 +61,11 @@ namespace MasterChef.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Create(ReceitaViewModel viewModel, IFormFile FotoName)
 		{
-			var request = new RestRequest("Receitas", Method.Post)
-				.AddJsonBody(new ReceitaCreateRequest()
-				{
-					Titulo = viewModel.Titulo,
-					Descricao = viewModel.Descricao,
-					Ingredientes = viewModel.Ingredientes,
-					ModoDePreparo = viewModel.ModoDePreparo,
-					FotoName = FotoName?.FileName,
-					FotoContent = await FotoName.ToBase64(),
-					Tags = viewModel.Tags,
-					CategoriaId = viewModel.CategoriaId
-				});
+			var _mappedReceita = _mapper.Map<ReceitaCreateRequest>(viewModel);
+			_mappedReceita.FotoName = FotoName?.FileName;
+			_mappedReceita.FotoContent = await FotoName.ToBase64();
 
-			//var _mappedReceita = _mapper.Map<ReceitaCreateRequest>(viewModel);
-			//_mappedReceita.FotoName = foto?.FileName;
-			//_mappedReceita.FotoContent = await foto.ToBase64();
-
-			//var request = new RestRequest("Receitas", Method.Post).AddJsonBody(_mappedReceita);
+			var request = new RestRequest("Receitas", Method.Post).AddJsonBody(_mappedReceita);
 			request = await AddToken(request);
 
 			var response = await _client.PostAsync(request);
@@ -91,7 +78,6 @@ namespace MasterChef.Controllers
 					request = new RestRequest("Receitas/UploadFoto/{id}", Method.Post)
 						.AddUrlSegment("id", receita.Id)
 						.AddHeader("Content-Type", "multipart/form-data")
-						//.AddFile("fotoStr", System.IO.File.ReadAllBytes(fileName), fileName);
 						.AddFile("fotoStr", await FotoName.GetBytes(), FotoName.FileName);
 					request.AlwaysMultipartFormData = true;
 					request = await AddToken(request);
@@ -105,12 +91,12 @@ namespace MasterChef.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(Guid id)
 		{
-			var request1 = new RestRequest("Categorias", Method.Get);
-			request1 = await AddToken(request1);
+			var requestCategorias = new RestRequest("Categorias", Method.Get);
+			requestCategorias = await AddToken(requestCategorias);
 
-			var response1 = await _client.GetAsync<IEnumerable<Categoria>>(request1);
+			var responseCategorias = await _client.GetAsync<IEnumerable<Categoria>>(requestCategorias);
 
-			ViewBag.Categorias = response1.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
+			ViewBag.Categorias = responseCategorias.Select(m => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = m.Id.ToString(), Text = m.Titulo.ToString() }).ToList();
 
 			var request = new RestRequest("Receitas/{id}", Method.Get).AddUrlSegment("id", id);
 			request = await AddToken(request);
@@ -121,51 +107,28 @@ namespace MasterChef.Controllers
 			{
 				if (response.Content != null)
 				{
-					var configuration = new MapperConfiguration(cfg =>
-					{
-						cfg.CreateMap<ReceitaViewModel, ReceitaResponse>();
-						cfg.CreateMap<ReceitaResponse, ReceitaViewModel>();
-					});
-					var mapper = configuration.CreateMapper();
-
-					var _mappedReceita = mapper.Map<ReceitaViewModel>(JsonConvert.DeserializeObject<ReceitaResponse>(response.Content));
+					var _mappedReceita = _mapper.Map<ReceitaViewModel>(JsonConvert.DeserializeObject<ReceitaResponse>(response.Content));
 
 					return View(_mappedReceita);
 				}
 				else
-				{
 					return NotFound();
-				}
 			}
 			else
-			{
 				return StatusCode((int)response.StatusCode);
-			}
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Edit(Guid id, ReceitaViewModel model, IFormFile foto)
 		{
-
+			var _mappedReceita = _mapper.Map<ReceitaCreateRequest>(model);
 			if (foto != null)
 			{
-				model.FotoName = foto.Name;
-				model.FotoContent = await foto.ToBase64();
+				_mappedReceita.FotoName = foto.Name;
+				_mappedReceita.FotoContent = await foto.ToBase64();
 			}
 
-			var request = new RestRequest("Receitas/{id}", Method.Put)
-				.AddUrlSegment("id", id)
-				.AddJsonBody(new ReceitaCreateRequest()
-				{
-					Descricao = model.Descricao,
-					Ingredientes = model.Ingredientes,
-					ModoDePreparo = model.ModoDePreparo,
-					Titulo = model.Titulo,
-					FotoName = model.FotoName,
-					FotoContent = model.FotoContent,
-					CategoriaId = model.CategoriaId,
-					Tags = model.Tags
-				});
+			var request = new RestRequest("Receitas/{id}", Method.Put).AddUrlSegment("id", id).AddJsonBody(_mappedReceita);			
 			request = await AddToken(request);
 			var response = await _client.PutAsync(request);
 

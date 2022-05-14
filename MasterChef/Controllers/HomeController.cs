@@ -17,11 +17,6 @@ namespace MasterChef.Controllers
 
             return RedirectToAction(nameof(ReceitaController.Index), typeof(ReceitaController).ControllerName());
 
-            //var request = new RestRequest("test", Method.Get);
-            //var response = await _client.GetAsync<string>(request);
-
-            //ViewData["TestApi"] = response;
-            //return View();
         }
 
         public IActionResult Privacy()
