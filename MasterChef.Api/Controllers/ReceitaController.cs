@@ -66,7 +66,7 @@ namespace MasterChef.Api.Controllers
         {
             var receitaDomain = _mapper.Map<Receita>(receita);
             receitaDomain.Id = id;
-            await _receitaService.Update(_mapper.Map<Receita>(receita), new FotoInfo(receita.FotoName, receita.FotoContent));
+            await _receitaService.Update(receitaDomain, new FotoInfo(receita.FotoName, receita.FotoContent));
             return Ok();
         }
 

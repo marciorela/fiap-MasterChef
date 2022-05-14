@@ -28,7 +28,7 @@ namespace MasterChef.Api.Controllers
         [HttpGet]
         public async Task<List<Categoria>> GetAll()
         {
-            return await _categoriaRepository.GetAll();
+            return await _categoriaRepository.GetAll(); 
         }
 
     }
